@@ -4,9 +4,9 @@ module Prct07
 
  describe Prct07::Bibliografia do
   before :each do
-    @l = Prct07::Bibliografia.new('Cervantes', 'El Quijorte', '12345', '1605')
-    @l2 = Prct07::Bibliografia.new('Tolkien', 'El Hobbit', '5678', '1945')
-    @l3 = Prct07::Bibliografia.new('Tolkien', 'El Hobbit', '5678', '1945')
+    @l = Prct07::Bibliografia.new('Miguel', 'Cervantes', 'El Quijorte', '12345', '1605', 'libro')
+    @l2 = Prct07::Bibliografia.new('JRR', 'Tolkien', 'El Hobbit', '5678', '1945', 'libro')
+    @l3 = Prct07::Bibliografia.new('JRR', 'Tolkien', 'El Hobbit', '5678', '1945', 'libro')
     
     @node1 = Node.new(@l, nil)
     @node2 = Node.new(@l2, nil)
@@ -17,6 +17,10 @@ module Prct07
   
   it 'Debe existir un autor' do
     expect(@l.autor) == 'Cervantes'
+  end
+  
+  it 'Tiene tipo' do
+    expect(@l.tipo) == 'libro'
   end
   
   it "Comprobamos que los libros son el mismo" do
@@ -74,25 +78,39 @@ module Prct07
     
  end# end describe list
  
- 
- describe Prct07::Periodicas do
+ describe Prct07::APABibliografia do
    before :each do
-     @p = Prct07::Periodicas.new('Risto', 'Rincon de pensar', '6543', '1-1-2015', 'documento electronico')
-    
-     @node3 = Node.new(@p, nil)
+     @b1 = Prct07::Bibliografia.new('Miguel', 'Cervantes', 'El Quijorte', '12345', '1605', 'libro')
+     @b2 = Prct07::Bibliografia.new('JRR', 'Tolkien', 'El Hobbit', '12346', '1945', 'narrativa')
+     @b3 = Prct07::Bibliografia.new('Risto', 'Mejide', 'Rincon de pensar', '1238', '2015', 'articulo')
+     
+     @lista = Prct07::List.new()
+     
+     @nodo1 = Prct07::Node.new(@b1, nil, nil)
+     @nodo2 = Prct07::Node.new(@b2, nil, nil)
+     @nodo3 = Prct07::Node.new(@b3, nil, nil)
+     
+     @lista.push(@nodo1)
+     @lista.push(@nodo2)
+     @lista.push(@nodo3)
+     
+     @apabibliografia = Prct07::APABibliografia.new(@lista)
     end
     
-    context "Pruebas para la clase Publicaciones Periodicas" do
-      it "Es de la clase Periodicas" do
-        expect(@p.class) == Periodicas
-      end
-    end
+    context "xpectativas para APABibliografia"
     
-      it "Tiene un tipo publicacion" do
-       expect(@p.tipoPublicacion) == 'documento electronico'
+      it "Debe ser de la clase APABibliografia" do
+        expect(@apabibliografia.class).to eq(APABibliografia)
       end
-  end #end describe de Periodicas
-    
+      
+      it "Salida ordenada" do
+        expect(ver(@lista)).to eq("LIBRO\nAutor: Miguel\n Titulo: El Quijote\n ISBN: 12345\n Fecha: 1605\n 
+                                    ARTICULOS\nAutor: Risto\n Titulo: Rincon de pensar\n ISBN: 1238\n Fecha: 2015\n 
+                                    OTROS\nAutor: JRR\n Titulo: El Hobbit\n ISBN: 12346\n Fecha: 1945\n " )
+      end
+  
+  end
+ 
  
  
 end

@@ -4,21 +4,26 @@ module Prct07
     
     class Bibliografia
         include Comparable
-        attr_accessor :autor, :titulo, :isbn, :fecha
+        attr_accessor :autor, :apellido, :titulo, :isbn, :fecha, :tipo
         
-        def initialize(autor, titulo, isbn, fecha)
+        def initialize(autor, apellido, titulo, isbn, fecha, tipo)
             @autor = autor
+            @apellido = apellido
             @titulo = titulo
             @isbn = isbn
             @fecha = fecha
+            @tipo = tipo
         end
         
         def to_s
             "Autor: #{@autor}\n Titulo: #{@titulo}\n ISBN: #{@isbn}\n Fecha: #{@fecha}\n"
         end
         
+        #def <=>(anOther)
+            #titulo.size <=> anOther.titulo.size
+        #end
         def <=>(anOther)
-            titulo.size <=> anOther.titulo.size
+            apellido.size <=> anOther.apellido.size
         end
         
     end #class Bibliografia
@@ -91,13 +96,50 @@ module Prct07
     end #class List
     
     
-    class Periodicas < Bibliografia
-        attr_accessor :tipoPublicacion
+   class APABibliografia
+       
+       include Enumerable
+       
+       attr_accessor :lista
+       
+       def initialize(lista)
+           @lista = lista
+       end
         
-        def initialize(autor, titulo, isbn, fecha, tipoPublicacion)
-            super(autor, titulo, isbn, fecha)
-            @tipoPublicacion = tipoPublicacion
+        def ver(lista)
+           @lordenada = Prct07::List.new()
+           @lordenada = lista.sort{|a,b| a.apellido <=> b.apellido}
+           
+           @lordenada.each do |b|
+               #puts "LIBROS"
+               cadena = "LIBROS\n"
+               if b.tipo == 'libro'
+                   #puts " #{b.to_s}\n"
+                  cadena = cadena+b.to_s+"\n"
+               end
+            end
+            
+            @lordenada.each do |b|
+               #puts "ARTICULOS"
+               cadena = "ARTICULOS\n"
+               if b.tipo == 'articulo'
+                   #puts " #{b.to_s}\n"
+                  cadena = cadena+b.to_s+"\n"
+               end
+            end
+            
+            @lordenada.each do |b|
+               #puts "OTROS"
+               cadena = "OTROS\n"
+               if b.tipo != 'libro' and b.tipo != 'articulo'
+                   #puts " #{b.to_s}\n"
+                   cadena = cadena+b.to_s+"\n"
+               end
+            end
+            cadena
         end
         
-    end#fin clase periodica
+   end #end clase APABibliografia
+    
+    
 end #mocule
